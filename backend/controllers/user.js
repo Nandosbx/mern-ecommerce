@@ -1,0 +1,22 @@
+const User = require('../models/user')
+
+exports.signup = (req, res) => {
+    console.log('Req-body: ', req.body)    
+
+    const user = new User(req.body)
+    user.save((error, user) => {
+        if (error) {
+            return res.status(400).json({
+                error
+            })
+        }
+        res.json({ 
+            user 
+        })
+    })
+}
+
+exports.bringit = (req, res) => {
+    console.log('Recebi')
+    res.json({"Message": "Enviado"})
+}
