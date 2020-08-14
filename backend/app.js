@@ -29,7 +29,7 @@ app.use('/api', userRouter)
 //ANCHOR Teste Enviado/Recebido
 /*app.use(express.json())
 app.get('/', (req, res)=> {
-    console.log('Recebi')
+    console.log('Recebido')
     res.json({"message": "Enviado"})
 })*/
 
