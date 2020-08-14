@@ -7,7 +7,9 @@ const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 //ANCHOR Routes
+const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
+const categoryRouter = require('./routes/category')
 
 //ANCHOR Mongoose Connection 
 mongoose
@@ -17,13 +19,17 @@ mongoose
         useUnifiedTopology: true,
     })
     .then(() => console.log('Database is connected'))
+    .catch(error => console.log("Database error: ", error))
 
 //ANCHOR Middlewares
 app.use(bodyParser.json())
 app.use(cookieParser())
 
+
 //ANCHOR ROTAS rotas de middleware
-app.use('/api', userRouter)
+app.use('/api', authRouter    )
+app.use('/api', userRouter    )
+app.use('/api', categoryRouter)
 
 
 //ANCHOR Teste Enviado/Recebido
