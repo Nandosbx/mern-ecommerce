@@ -23,8 +23,8 @@ const productSchema = new mongoose.Schema({
   },
 
   category: {
-    type: ObjectId,
-    required: true,
+    type:ObjectId,
+    required:true,
     ref:'Category'
   },
 
@@ -33,7 +33,7 @@ const productSchema = new mongoose.Schema({
   },
 
   photo: {
-    data: Buffer,
+    data:Buffer,
     contentType: String
   }
 
