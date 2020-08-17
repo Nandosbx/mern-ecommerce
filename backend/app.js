@@ -27,7 +27,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 
-//ANCHOR ROTAS rotas de middleware
+//ANCHOR ROTAS 
 app.use('/api', authRouter    )
 app.use('/api', userRouter    )
 app.use('/api', categoryRouter)
