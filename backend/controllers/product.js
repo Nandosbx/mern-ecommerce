@@ -17,7 +17,7 @@ exports.productById = (req, res, next, id) => {
     })
 }
 
-//ANCHOR Create
+//ANCHOR Create Product
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
