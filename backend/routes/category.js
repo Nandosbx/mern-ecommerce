@@ -28,6 +28,7 @@ router.put(
     isAdmin,
     update,
 )
+
 router.get('/category/:categoryId', read)
 router.get('/categories', list)
 
