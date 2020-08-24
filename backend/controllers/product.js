@@ -150,4 +150,22 @@ exports.list = (req, res) => {
             }
 
             res.send(data)
-    
+        })
+}
+
+//ANCHOR Product Related
+exports.listRelated = (req, res) => {
+    let limit = req.query.limit ? parseInt(req.query.limit) : 6
+
+    Product.find({ _id: { $ne: req.product }, category: req.product.category })
+        .limit(limit)
+        .populate('category', '_id name')
+        .exec((error, data) => {
+            if (error) {
+                return res.status(400).json({
+                    error: 'Product not found',
+                })
+            }
+            res.json(data)
+        })
+}
