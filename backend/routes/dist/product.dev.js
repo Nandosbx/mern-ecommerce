@@ -12,7 +12,8 @@ var _require = require('../controllers/product'),
     remove = _require.remove,
     list = _require.list,
     listRelated = _require.listRelated,
-    listCategories = _require.listCategories;
+    listCategories = _require.listCategories,
+    listBySearch = _require.listBySearch;
 
 var _require2 = require('../controllers/auth'),
     requireSignin = _require2.requireSignin,
@@ -37,4 +38,5 @@ router.get('/products/categories', listCategories); //ANCHOR Product Param
 
 router.param('userId', userById);
 router.param('productId', productById);
+router.post('/products/by/search', listBySearch);
 module.exports = router;

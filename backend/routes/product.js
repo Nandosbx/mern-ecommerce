@@ -10,6 +10,7 @@ const {
     list,
     listRelated,
     listCategories,
+    listBySearch,
 } = require('../controllers/product')
 const { requireSignin, isAdmin, isAuth } = require('../controllers/auth')
 const { userById } = require('../controllers/user')
@@ -48,5 +49,6 @@ router.get('/products/categories', listCategories)
 //ANCHOR Product Param
 router.param('userId', userById)
 router.param('productId', productById)
+router.post('/products/by/search', listBySearch)
 
 module.exports = router
