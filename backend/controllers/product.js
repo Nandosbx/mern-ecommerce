@@ -181,3 +181,44 @@ exports.listCategories = (req, res) => {
         res.json(categories)
     })
 }
+
+//ANCHOR List By Search
+exports.listBySearch = (req, res) => {
+    let order = req.body.order ? req.body.order : 'desc'
+    let sortBy = req.body.sortBy ? req.body.sortBy : '_id'
+    let limit = req.body.limit ? parseInt(req.body.limit) : 100
+    let skip = parseInt(req.body.skip)
+    let findArgs = {}
+
+    for (let key in req.body.filters) {
+        if (req.body.filters[key].lenght > 0) {
+            if (key === 'price') {
+                findArgs[key] = {
+                    $gte: req.bodu.filters[0],
+                    $lte: req.body.filters[1],
+                }
+            } else {
+                findArgs[key] = req.body.filters[key]
+            }
+        }
+    }
+
+    Product.find(findArgs)
+        .select('-photo')
+        .populate('categories')
+        .sort([[sortBy, order]])
+        .skip(skip)
+        .limit(limit)
+        .exec((error, data) => {
+            if (error) {
+                return req.status(400).json({
+                    error: 'Product not found',
+                })
+            }
+
+            res.json({
+                size: data.length,
+                data,
+            })
+        })
+}
