@@ -222,3 +222,12 @@ exports.listBySearch = (req, res) => {
             })
         })
 }
+
+//ANCHOR Photo
+exports.photo = (req, res, next) => {
+    if (req.product.photo.data) {
+        res.set('Content-Type', req.product.photo.contentType)
+        return res.semd(req.product.photo.data)
+    }
+    next()
+}

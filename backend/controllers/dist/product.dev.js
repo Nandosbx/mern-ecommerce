@@ -238,4 +238,14 @@ exports.listBySearch = function (req, res) {
       data: data
     });
   });
+}; //ANCHOR Photo
+
+
+exports.photo = function (req, res, next) {
+  if (req.product.photo.data) {
+    res.set('Content-Type', req.product.photo.contentType);
+    return res.semd(req.product.photo.data);
+  }
+
+  next();
 };
