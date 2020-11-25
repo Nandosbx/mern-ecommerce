@@ -1,13 +1,12 @@
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const expressValidator = require('express-validator')
-
-require('dotenv').config()
+const env = require('dotenv')
+const config = require('./config/key')
 
 //ANCHOR Routes
 const authRouter = require('./routes/auth')
@@ -15,9 +14,14 @@ const userRouter = require('./routes/user')
 const categoryRouter = require('./routes/category')
 const productRouter = require('./routes/product')
 
+//ANCHOR Variables
+env.config()
+
+const app = express()
+
 //ANCHOR Mongoose Connection
 mongoose
-    .connect(process.env.DATABASE, {
+    .connect(config.mongoURI, {
         useNewUrlParser: true,
         useCreateIndex: true,
         useUnifiedTopology: true,
@@ -38,13 +42,6 @@ app.use('/api', authRouter)
 app.use('/api', userRouter)
 app.use('/api', categoryRouter)
 app.use('/api', productRouter)
-
-//ANCHOR Teste Enviado/Recebido
-/*app.use(express.json())
-app.get('/', (req, res)=> {
-    console.log('Recebido')
-    res.json({"message": "Enviado"})
-})*/
 
 //ANCHOR Port
 const port = process.env.PORT || 8000

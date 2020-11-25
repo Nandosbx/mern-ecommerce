@@ -3,6 +3,7 @@ const User = require('../models/user')
 const { errorHandler } = require('../helpers/dbErrorHandler')
 const jwt = require('jsonwebtoken')
 const expressJwt = require('express-jwt')
+const { JWT_SECRET } = require('../config/jwtSecret')
 
 //ANCHOR SignUp
 exports.signup = (req, res) => {
@@ -41,7 +42,7 @@ exports.signin = (req, res) => {
         }
 
         //gerar um token com id e um segredo
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET)
+        const token = jwt.sign({ _id: user._id }, JWT_SECRET)
         res.cookie('t', token, { expire: new Date() + 9999 })
         //retornar resposta para frontend
         const { _id, name, email, role } = user
@@ -57,7 +58,7 @@ exports.signout = (req, res) => {
 
 //ANCHOR Require Signin
 exports.requireSignin = expressJwt({
-    secret: process.env.JWT_SECRET,
+    secret: JWT_SECRET,
     algorithms: ['HS256'],
     userProperty: 'auth',
 })
@@ -82,11 +83,3 @@ exports.isAdmin = (req, res, next) => {
     }
     next()
 }
-
-//ANCHOR Bringit
-exports.bringit = (req, res) => {
-    console.log('Recebido')
-    res.json({ Message: 'Enviado' })
-}
-
-//

@@ -36,7 +36,7 @@ exports.update = (req, res) => {
             }
 
             req.profile.hashed_password = undefined
-            req.profile.stal = undefined
+            req.profile.salt = undefined
             res.json(user)
         },
     )

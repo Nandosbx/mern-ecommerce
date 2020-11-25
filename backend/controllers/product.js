@@ -126,7 +126,7 @@ exports.remove = (req, res) => {
             })
         }
         res.json({
-            Message: `Produt ${deletedProduct.name} was deleted successfully`,
+            Message: `Product ${deletedProduct.name} was deleted successfully`,
         })
     })
 }
@@ -172,7 +172,7 @@ exports.listRelated = (req, res) => {
 
 //ANCHOR List Categories
 exports.listCategories = (req, res) => {
-    Product.distinct('categoy', {}, (error, categories) => {
+    Product.distinct('category', {}, (error, categories) => {
         if (error) {
             return res.status(400).json({
                 error: 'Categories not found',
@@ -191,10 +191,10 @@ exports.listBySearch = (req, res) => {
     let findArgs = {}
 
     for (let key in req.body.filters) {
-        if (req.body.filters[key].lenght > 0) {
+        if (req.body.filters[key].length > 0) {
             if (key === 'price') {
                 findArgs[key] = {
-                    $gte: req.bodu.filters[0],
+                    $gte: req.body.filters[0],
                     $lte: req.body.filters[1],
                 }
             } else {
@@ -227,7 +227,7 @@ exports.listBySearch = (req, res) => {
 exports.photo = (req, res, next) => {
     if (req.product.photo.data) {
         res.set('Content-Type', req.product.photo.contentType)
-        return res.semd(req.product.photo.data)
+        return res.send(req.product.photo.data)
     }
     next()
 }
