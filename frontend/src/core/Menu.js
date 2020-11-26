@@ -13,7 +13,7 @@ const Menu = ({ history }) => {
     return (
         <div>
             <ul className="nav nav-tabs bg-primary">
-                <li className="nav-item">
+                <li className="nav-item nav">
                     <Link
                         className="nav-link"
                         style={isActive(history, '/')}
