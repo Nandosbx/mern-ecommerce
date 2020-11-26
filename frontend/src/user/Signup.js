@@ -37,7 +37,20 @@ const Signup = () => {
 
     const clickSubmit = (event) => {
         event.preventDefault()
-        signup({ name, email, password })
+        signup({ name, email, password }).then((data) => {
+            if (data.error) {
+                setValues({ ...values, error: data.error, success: false })
+            } else {
+                setValues({
+                    ...values,
+                    name: '',
+                    email: '',
+                    password: '',
+                    error: '',
+                    success: true,
+                })
+            }
+        })
     }
 
     const signUpForm = () => (
@@ -50,6 +63,7 @@ const Signup = () => {
                     onChange={handleChange('name')}
                     type="text"
                     className="form-control"
+                    value={name}
                 />
             </div>
 
@@ -61,6 +75,7 @@ const Signup = () => {
                     onChange={handleChange('email')}
                     type="email"
                     className="form-control"
+                    value={email}
                 />
             </div>
 
@@ -72,6 +87,7 @@ const Signup = () => {
                     onChange={handleChange('password')}
                     type="password"
                     className="form-control"
+                    value={password}
                 />
             </div>
 

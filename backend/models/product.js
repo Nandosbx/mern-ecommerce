@@ -25,8 +25,8 @@ const productSchema = new mongoose.Schema(
 
         category: {
             type: ObjectId,
-            required: true,
             ref: 'Category',
+            required: true,
         },
 
         quantity: {
@@ -41,6 +41,11 @@ const productSchema = new mongoose.Schema(
         photo: {
             data: Buffer,
             contentType: String,
+        },
+
+        shipping: {
+            required: false,
+            type: Boolean,
         },
     },
     { timestamps: true },

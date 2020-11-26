@@ -5,6 +5,12 @@
 </p>
 -->
 
+<!--
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/run-collection/:collection_id)
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=&uri=)
+-->
+
 <div align="center">
 <img src="https://img.shields.io/badge/ECOMMERCE-REACT-ff9900?style=for-the-badge&logo=appveyor"/><img src="https://img.shields.io/badge/LICENSE-MIT-ff9900?style=for-the-badge&logo=appveyor" />
 

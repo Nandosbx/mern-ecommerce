@@ -28,19 +28,33 @@ exports.create = (req, res) => {
             })
         }
 
-        const { name, description, price, category, quantity } = fields
+        const {
+            name,
+            description,
+            price,
+            category,
+            quantity,
+            shipping,
+        } = fields
 
-        if (!name || !description || !price || !category || !quantity) {
+        if (
+            !name ||
+            !description ||
+            !price ||
+            !category ||
+            !quantity ||
+            !shipping
+        ) {
             return res.status(400).json({ error: 'All fields are required' })
         }
 
         let product = new Product(fields)
 
         if (files.photo) {
-            if (files.photo.size > 90000) {
+            if (files.photo.size > 100000) {
                 return res
                     .status(400)
-                    .json({ error: 'Photo must be less than 90k' })
+                    .json({ error: 'Photo must be less than 1mb in size' })
             } else if (files.photo.size === 0) {
                 return res
                     .status(400)
@@ -78,9 +92,23 @@ exports.update = (req, res) => {
             })
         }
 
-        const { name, description, price, category, quantity } = fields
+        const {
+            name,
+            description,
+            price,
+            category,
+            quantity,
+            shipping,
+        } = fields
 
-        if (!name || !description || !price || !category || !quantity) {
+        if (
+            !name ||
+            !description ||
+            !price ||
+            !category ||
+            !quantity ||
+            !shipping
+        ) {
             return res.status(400).json({ error: 'All fields are required' })
         }
 
@@ -91,10 +119,10 @@ exports.update = (req, res) => {
         console.log('After product: ', product)
 
         if (files.photo) {
-            if (files.photo.size > 90000) {
+            if (files.photo.size > 100000) {
                 return res
                     .status(400)
-                    .json({ error: 'Photo must be less than 90k' })
+                    .json({ error: 'Photo must be less than 1mb' })
             } else if (files.photo.size === 0) {
                 return res
                     .status(400)
@@ -160,13 +188,13 @@ exports.listRelated = (req, res) => {
     Product.find({ _id: { $ne: req.product }, category: req.product.category })
         .limit(limit)
         .populate('category', '_id name')
-        .exec((error, data) => {
+        .exec((error, products) => {
             if (error) {
                 return res.status(400).json({
                     error: 'Product not found',
                 })
             }
-            res.json(data)
+            res.json(products)
         })
 }
 
