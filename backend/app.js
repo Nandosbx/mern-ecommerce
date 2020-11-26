@@ -37,7 +37,7 @@ app.use(cookieParser())
 app.use(expressValidator())
 app.use(cors())
 
-//ANCHOR ROTAS
+//ANCHOR Routes
 app.use('/api', authRouter)
 app.use('/api', userRouter)
 app.use('/api', categoryRouter)

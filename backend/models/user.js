@@ -2,47 +2,46 @@ const mongoose = require('mongoose')
 const crypto = require('crypto')
 const uuidv1 = require('uuidv1')
 
-
 //ANCHOR Mongoose.Schema
 const userSchema = new mongoose.Schema(
     {
         name: {
-            type:String,
-            trim:true,
-            required:true,
-            maxlength:12,
+            type: String,
+            trim: true,
+            required: true,
+            maxlength: 32,
         },
 
         email: {
-            type:String,
-            trim:true,
-            required:true,
-            unique:true,
+            type: String,
+            trim: true,
+            required: true,
+            unique: true,
         },
 
         hashed_password: {
-            type:String,
-            required:true,
+            type: String,
+            required: true,
         },
 
         about: {
-            type:String,
+            type: String,
+            trim: true,
         },
 
         history: {
-            type:Array,
-            default:[],
+            type: Array,
+            default: [],
         },
 
-        salt:String,
+        salt: String,
         role: {
-            type:Number,
-            default:0,
-        }
+            type: Number,
+            default: 0,
+        },
     },
-    { timestamps: true }
+    { timestamps: true },
 )
-
 
 //ANCHOR Virtual fields
 userSchema
@@ -56,11 +55,9 @@ userSchema
         return this._password
     })
 
-
 //ANCHOR Methods
 userSchema.methods = {
-
-    authenticate: function(plainText) {
+    authenticate: function (plainText) {
         return this.encryptPassword(plainText) === this.hashed_password
     },
 
