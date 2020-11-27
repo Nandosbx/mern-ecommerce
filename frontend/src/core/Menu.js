@@ -22,17 +22,35 @@ const Menu = ({ history }) => {
                     >
                         Home
                     </Link>
+                </li>
 
-                    <Link
-                        className="nav-link"
-                        style={isActive(history, '/user/dashboard')}
-                        to="/user/dashboard"
-                    >
-                        Dashboard
-                    </Link>
+                {isAuthenticated() && isAuthenticated().user.role === 0 && (
+                    <li className="nav-item nav">
+                        <Link
+                            className="nav-link"
+                            style={isActive(history, '/user/dashboard')}
+                            to="/user/dashboard"
+                        >
+                            Dashboard
+                        </Link>
+                    </li>
+                )}
 
-                    {!isAuthenticated() && (
-                        <Fragment>
+                {isAuthenticated() && isAuthenticated().user.role === 1 && (
+                    <li className="nav-item nav">
+                        <Link
+                            className="nav-link"
+                            style={isActive(history, '/admin/dashboard')}
+                            to="/admin/dashboard"
+                        >
+                            Dashboard
+                        </Link>
+                    </li>
+                )}
+
+                {!isAuthenticated() && (
+                    <Fragment>
+                        <li className="nav-item nav">
                             <Link
                                 className="nav-link"
                                 style={isActive(history, '/signin')}
@@ -40,7 +58,9 @@ const Menu = ({ history }) => {
                             >
                                 Signin
                             </Link>
+                        </li>
 
+                        <li className="nav-item nav">
                             <Link
                                 className="nav-link"
                                 style={isActive(history, '/signup')}
@@ -48,10 +68,12 @@ const Menu = ({ history }) => {
                             >
                                 Signup
                             </Link>
-                        </Fragment>
-                    )}
+                        </li>
+                    </Fragment>
+                )}
 
-                    {isAuthenticated() && (
+                {isAuthenticated() && (
+                    <li className="nav-item nav">
                         <span
                             className="nav-link"
                             style={{ cursor: 'pointer', color: '#fff' }}
@@ -63,8 +85,8 @@ const Menu = ({ history }) => {
                         >
                             Signout
                         </span>
-                    )}
-                </li>
+                    </li>
+                )}
             </ul>
         </div>
     )
