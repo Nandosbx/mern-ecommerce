@@ -13,7 +13,7 @@ const isActive = (history, path) => {
 const Menu = ({ history }) => {
     return (
         <div>
-            <ul className="nav nav-tabs bg-primary">
+            <ul className="nav nav-tabs bg-dark">
                 <li className="nav-item nav">
                     <Link
                         className="nav-link"
