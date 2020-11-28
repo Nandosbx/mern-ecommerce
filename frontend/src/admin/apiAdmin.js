@@ -18,3 +18,21 @@ export const createCategory = (userId, token, category) => {
             console.log(err)
         })
 }
+
+export const createProduct = (userId, token, product) => {
+    //console.log(values)
+    return fetch(`${API}/product/create/${userId}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: product,
+    })
+        .then((response) => {
+            return response.json({ product })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+}
