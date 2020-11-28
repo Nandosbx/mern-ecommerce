@@ -48,11 +48,32 @@ const AddProduct = () => {
         setValues({ ...values, [name]: value })
     }
 
-    //const clickSubmit = () => {}
+    const clickSubmit = (event) => {
+        event.preventDefault()
+        setValues({ ...values, error: '', loading: true })
+
+        createProduct(user._id, token, formData).then((data) => {
+            if (data.error) {
+                setValues({ ...values, error: data.error })
+            } else {
+                setValues({
+                    ...values,
+                    name: '',
+                    description: '',
+                    photo: '',
+                    price: '',
+                    quantity: '',
+                    category: '',
+                    loading: false,
+                    createdProduct: data.name,
+                })
+            }
+        })
+    }
 
     const newPostForm = () => {
         return (
-            <form className="mb-3" onSubmit={() => {}}>
+            <form className="mb-3" onSubmit={clickSubmit}>
                 <h4>Post Photo</h4>
 
                 <div className="from-group">
