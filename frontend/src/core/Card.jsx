@@ -18,6 +18,22 @@ const Card = ({ product, showViewProductButton = true }) => {
         )
     }
 
+    const showAddToCardButton = () => {
+        return (
+            <button className="btn btn-outline-warning mt-2 mb-2">
+                Add to Cart
+            </button>
+        )
+    }
+
+    const showStock = (quantity) => {
+        return quantity > 0 ? (
+            <span className="badge badge-primary badge-pill">In stock</span>
+        ) : (
+            <span className="badge badge-primary badge-pill">Out of stock</span>
+        )
+    }
+
     return (
         <div className="card">
             <div className="card-header bg-dark text-white">{product.name}</div>
@@ -33,11 +49,13 @@ const Card = ({ product, showViewProductButton = true }) => {
                 <p className="black-8">
                     Added on {moment(product.createdAt).fromNow()}
                 </p>
+
+                {showStock(product.quantity)}
+                <br />
+
                 {showViewButton(showViewProductButton)}
 
-                <button className="btn btn-outline-warning mt-2 mb-2">
-                    Add to Cart
-                </button>
+                {showAddToCardButton()}
             </div>
         </div>
     )
