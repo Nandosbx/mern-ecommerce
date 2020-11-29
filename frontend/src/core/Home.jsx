@@ -45,22 +45,18 @@ const Home = () => {
             <h2 className="mb-4">New Arrivals</h2>
             <div className="row">
                 {productsByArrival.map((product, index) => (
-                    <Card
-                        key={index}
-                        product={product}
-                        style={{ display: 'flex' }}
-                    />
+                    <div key={index} className="col-4 mb-3">
+                        <Card product={product} style={{ display: 'flex' }} />
+                    </div>
                 ))}
             </div>
 
             <h2 className="mb-4">Best Sellers</h2>
             <div className="row">
                 {productsBySell.map((product, index) => (
-                    <Card
-                        key={index}
-                        product={product}
-                        style={{ display: 'flex' }}
-                    />
+                    <div key={index} className="col-4 mb-3">
+                        <Card product={product} style={{ display: 'flex' }} />
+                    </div>
                 ))}
             </div>
         </Layout>
