@@ -57,6 +57,10 @@
     border-radius: 50%;
 }
 
+.nav-link {
+    outline: none;
+}
+
 .jumbotron h2 {
     margin-top: -10px;
 }
