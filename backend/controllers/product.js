@@ -6,15 +6,17 @@ const { errorHandler } = require('../helpers/dbErrorHandler')
 
 //NOTE Product By Id
 exports.productById = (req, res, next, id) => {
-    Product.findById(id).exec((error, product) => {
-        if (error || !product) {
-            return res.status(400).json({
-                error: 'Product not found',
-            })
-        }
-        req.product = product
-        next()
-    })
+    Product.findById(id)
+        .populate('category')
+        .exec((error, product) => {
+            if (error || !product) {
+                return res.status(400).json({
+                    error: 'Product not found',
+                })
+            }
+            req.product = product
+            next()
+        })
 }
 
 //NOTE Create Product
