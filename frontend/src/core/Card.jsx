@@ -28,22 +28,24 @@ const Card = ({ product, showViewProductButton = true }) => {
 
     const showStock = (quantity) => {
         return quantity > 0 ? (
-            <span className="badge badge-primary badge-pill">In stock</span>
+            <span className="badge badge-dark badge-pill">In stock</span>
         ) : (
-            <span className="badge badge-primary badge-pill">Out of stock</span>
+            <span className="badge badge-danger badge-pill">Out of stock</span>
         )
     }
 
     return (
         <div className="card">
-            <div className="card-header bg-dark text-white">{product.name}</div>
+            <div className="card-header bg-dark text-white name">
+                {product.name}
+            </div>
             <div className="card-body">
                 <ShowImage item={product} url="product" />
                 <p className="lead mt-2">
                     {product.description.substring(0, 100)}
                 </p>
-                <p className="black-9">${product.price}</p>
-                <p className="black-8">
+                <p className="black-10">${product.price}</p>
+                <p className="black-9">
                     Category: {product.category && product.category.name}
                 </p>
                 <p className="black-8">
