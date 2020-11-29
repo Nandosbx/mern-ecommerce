@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Layout from './Layout'
 import { getCategories, list } from './apiCore'
 import Card from './Card'
 
@@ -53,12 +52,31 @@ const Search = () => {
         setData({ ...data, [name]: event.target.value, searched: false })
     }
 
+    const searchMessage = (searched, results) => {
+        if (searched && results.length === 1) {
+            return `Found ${results.length} product`
+        }
+
+        if (searched && results.length > 1) {
+            return `Found ${results.length} products`
+        }
+
+        if (searched && results.length === 0) {
+            return `No products found`
+        }
+    }
+
     const searchedProduct = (results = []) => {
         return (
-            <div className="row">
-                {results.map((product, i) => {
-                    return <Card key={i} product={product} />
-                })}
+            <div>
+                <h2 className="mb-4 mt-4">
+                    {searchMessage(searched, results)}
+                </h2>
+                <div className="row">
+                    {results.map((product, i) => {
+                        return <Card key={i} product={product} />
+                    })}
+                </div>
             </div>
         )
     }
@@ -77,7 +95,7 @@ const Search = () => {
                                 onChange={handleChange('category')}
                             >
                                 <option value="All" style={{ color: 'black' }}>
-                                    Pick Category
+                                    All
                                 </option>
                                 {categories.map((c, i) => {
                                     return (
