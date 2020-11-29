@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Layout from '../core/Layout'
 import { isAuthenticated } from '../auth'
 import { Link } from 'react-router-dom'
-import { createProduct } from './apiAdmin'
+import { createProduct, getCategories } from './apiAdmin'
 
 const AddProduct = () => {
     const { user, token } = isAuthenticated()
@@ -37,8 +37,22 @@ const AddProduct = () => {
         formData,
     } = values
 
+    const init = () => {
+        getCategories().then((data) => {
+            if (data.error) {
+                setValues({ ...values, error: data.error })
+            } else {
+                setValues({
+                    ...values,
+                    categories: data,
+                    formData: new FormData(),
+                })
+            }
+        })
+    }
+
     useEffect(() => {
-        setValues({ ...values, formData: new FormData() })
+        init()
     }, [])
 
     const handleChange = (name) => (event) => {
@@ -123,7 +137,15 @@ const AddProduct = () => {
                         onChange={handleChange('category')}
                         className="form-control"
                     >
-                        <option value="">Node</option>
+                        <option>Please Select</option>
+                        {categories &&
+                            categories.map((c, i) => {
+                                return (
+                                    <option key={i} value={c._id}>
+                                        {c.name}
+                                    </option>
+                                )
+                            })}
                     </select>
                 </div>
 
@@ -143,6 +165,7 @@ const AddProduct = () => {
                         onChange={handleChange('shipping')}
                         className="form-control"
                     >
+                        <option>Please Select</option>
                         <option value="0">No</option>
                         <option value="1">Yes</option>
                     </select>
@@ -155,6 +178,27 @@ const AddProduct = () => {
         )
     }
 
+    const showError = () => (
+        <div
+            className="alert alert-danger"
+            style={{ display: error ? '' : 'none' }}
+        >
+            {error}
+        </div>
+    )
+
+    const showSuccess = () => (
+        <div
+            className="alert alert-info"
+            style={{ display: createdProduct ? '' : 'none' }}
+        >
+            <h2>{`${createdProduct} is created`}</h2>
+        </div>
+    )
+
+    const showLoading = () =>
+        loading && <div className="alert alert-success">Loading</div>
+
     return (
         <Layout
             title="Add a new category"
@@ -162,7 +206,12 @@ const AddProduct = () => {
             className="container-fluid"
         >
             <div className="row">
-                <div className="col-md-8 offset-md-2">{newPostForm()}</div>
+                <div className="col-md-8 offset-md-2">
+                    {showLoading()}
+                    {showSuccess()}
+                    {showError()}
+                    {newPostForm()}
+                </div>
             </div>
         </Layout>
     )
