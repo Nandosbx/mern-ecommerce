@@ -4,7 +4,7 @@ const _ = require('lodash')
 const fs = require('fs')
 const { errorHandler } = require('../helpers/dbErrorHandler')
 
-//ANCHOR Product By Id
+//NOTE Product By Id
 exports.productById = (req, res, next, id) => {
     Product.findById(id).exec((error, product) => {
         if (error || !product) {
@@ -17,7 +17,7 @@ exports.productById = (req, res, next, id) => {
     })
 }
 
-//ANCHOR Create Product
+//NOTE Create Product
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
@@ -75,13 +75,13 @@ exports.create = (req, res) => {
     })
 }
 
-//ANCHOR Read
+//NOTE Read
 exports.read = (req, res) => {
     req.product.photo = undefined
     return res.json(req.product)
 }
 
-//ANCHOR Update
+//NOTE Update
 exports.update = (req, res) => {
     let form = new formidable.IncomingForm()
     form.keepExtensions = true
@@ -143,7 +143,7 @@ exports.update = (req, res) => {
     })
 }
 
-//ANCHOR Remove
+//NOTE Remove
 exports.remove = (req, res) => {
     let product = req.product
 
@@ -159,7 +159,7 @@ exports.remove = (req, res) => {
     })
 }
 
-//ANCHOR List
+//NOTE List
 exports.list = (req, res) => {
     let order = req.query.order ? req.query.order : 'asc'
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
@@ -181,7 +181,7 @@ exports.list = (req, res) => {
         })
 }
 
-//ANCHOR Product Related
+//NOTE Product Related
 exports.listRelated = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
@@ -198,7 +198,7 @@ exports.listRelated = (req, res) => {
         })
 }
 
-//ANCHOR List Categories
+//NOTE List Categories
 exports.listCategories = (req, res) => {
     Product.distinct('category', {}, (error, categories) => {
         if (error) {
@@ -210,7 +210,7 @@ exports.listCategories = (req, res) => {
     })
 }
 
-//ANCHOR List By Search
+//NOTE List By Search
 exports.listBySearch = (req, res) => {
     let order = req.body.order ? req.body.order : 'desc'
     let sortBy = req.body.sortBy ? req.body.sortBy : '_id'
@@ -251,11 +251,32 @@ exports.listBySearch = (req, res) => {
         })
 }
 
-//ANCHOR Photo
+//NOTE Photo
 exports.photo = (req, res, next) => {
     if (req.product.photo.data) {
         res.set('Content-Type', req.product.photo.contentType)
         return res.send(req.product.photo.data)
     }
     next()
+}
+//NOTE List Search
+exports.listSearch = (req, res) => {
+    const query = {}
+
+    if (req.query.search) {
+        query.name = { $regex: req.query.search, $options: 'i' }
+
+        if (req.query.category && req.query.category != 'All') {
+            query.category = req.query.category
+        }
+
+        Product.find(query, (err, products) => {
+            if (err) {
+                return res.status(400).json({
+                    error: errorHandler(err),
+                })
+            }
+            res.json(products)
+        }).select('-photo')
+    }
 }

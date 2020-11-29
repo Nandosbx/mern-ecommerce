@@ -8,6 +8,7 @@ const {
     update,
     remove,
     list,
+    listSearch,
     listRelated,
     listCategories,
     listBySearch,
@@ -35,17 +36,14 @@ router.delete(
     isAuth,
     remove,
 )
-
-router.get('/products/related/:productId', listRelated)
+router.param('productId', productById)
+router.param('userId', userById)
 
 router.get('/products', list)
-
+router.get('/products/search', listSearch)
+router.get('/products/related/:productId', listRelated)
 router.get('/products/categories', listCategories)
-
-router.param('userId', userById)
-router.param('productId', productById)
 router.post('/products/by/search', listBySearch)
-
 router.get('/product/photo/:productId', photo)
 
 module.exports = router
