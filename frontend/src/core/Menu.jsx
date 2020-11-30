@@ -38,7 +38,7 @@ const Menu = ({ history }) => {
                 <li className="nav-item nav">
                     <Link
                         className="nav-link"
-                        style={isActive(history, '/car')}
+                        style={isActive(history, '/cart')}
                         to="/cart"
                     >
                         Cart{' '}

@@ -2,12 +2,18 @@ import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import ShowImage from './ShowImage'
 import moment from 'moment'
-import { addItem } from './cartHelpers'
+import { addItem, updateItem } from './cartHelpers'
 //import 'moment/locale/pt-br'
 //moment.locale('pt-br')
 
-const Card = ({ product, showViewProductButton = true }) => {
+const Card = ({
+    product,
+    showViewProductButton = true,
+    showAddToCartButton = true,
+    cartUpdate = false,
+}) => {
     const [redirect, setRedirect] = useState(false)
+    const [count, setCount] = useState(product.count)
 
     const showViewButton = (showViewProductButton) => {
         return (
@@ -33,14 +39,16 @@ const Card = ({ product, showViewProductButton = true }) => {
         }
     }
 
-    const showAddToCardButton = () => {
+    const showAddToCart = (showAddToCartButton) => {
         return (
-            <button
-                onClick={addToCart}
-                className="btn btn-outline-warning mt-2 mb-2"
-            >
-                Add to Cart
-            </button>
+            showAddToCartButton && (
+                <button
+                    onClick={addToCart}
+                    className="btn btn-outline-warning mt-2 mb-2"
+                >
+                    Add to Cart
+                </button>
+            )
         )
     }
 
@@ -49,6 +57,35 @@ const Card = ({ product, showViewProductButton = true }) => {
             <span className="badge badge-dark badge-pill">In stock</span>
         ) : (
             <span className="badge badge-danger badge-pill">Out of stock</span>
+        )
+    }
+
+    const handleChange = (productId) => (event) => {
+        setCount(event.target.value < 1 ? 1 : event.target.value)
+        if (event.target.value >= 1) {
+            updateItem(productId, event.target.value)
+        }
+    }
+
+    const showCartUpdateOptions = (cartUpdate) => {
+        return (
+            cartUpdate && (
+                <div>
+                    <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">
+                                Adjust Quantity
+                            </span>
+                        </div>
+                        <input
+                            type="number"
+                            className="from-control"
+                            value={count}
+                            onChange={handleChange(product._id)}
+                        />
+                    </div>
+                </div>
+            )
         )
     }
 
@@ -76,7 +113,9 @@ const Card = ({ product, showViewProductButton = true }) => {
 
                 {showViewButton(showViewProductButton)}
 
-                {showAddToCardButton()}
+                {showAddToCart(showAddToCartButton)}
+
+                {showCartUpdateOptions(cartUpdate)}
             </div>
         </div>
     )
