@@ -55,12 +55,24 @@ const Checkout = ({ products }) => {
         let getNonce = data.instance
             .requestPaymentMethod()
             .then((data) => {
-                console.log(data)
-                nonce = data.nonce
-                console.log(nonce, getTotal(products))
+                //console.log(data)
+                //nonce = data.nonce
+                //console.log(nonce, getTotal(products))
+
+                const paymentData = {
+                    paymentMethodNonce: nonce,
+                    amount: getTotal(products),
+                }
+
+                processPayment(userId, token, paymentData)
+                    .then((response) => {
+                        setData({ ...data, success: response.success })
+                    })
+                    .catch((error) => console.log(error))
             })
+
             .catch((error) => {
-                console.log(error)
+                //console.log(error)
                 setData({ ...data, error: error.message })
             })
     }
@@ -78,7 +90,10 @@ const Checkout = ({ products }) => {
                                 (data.instance = instance)
                             }
                         />
-                        <button onClick={buy} className="btn btn-success">
+                        <button
+                            onClick={buy}
+                            className="btn btn-success btn-block"
+                        >
                             Pay
                         </button>
                     </div>
