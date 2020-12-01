@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import Layout from './Layout'
 import { getBraintreeClientToken, getProducts, processPayment } from './apiCore'
+import Card from './Card'
 import { isAuthenticated } from '../auth'
 import { Link } from 'react-router-dom'
 import DropIn from 'braintree-web-drop-in-react'
@@ -48,20 +50,50 @@ const Checkout = ({ products }) => {
         )
     }
 
+    const buy = () => {
+        let nonce
+        let getNonce = data.instance
+            .requestPaymentMethod()
+            .then((data) => {
+                console.log(data)
+                nonce = data.nonce
+                console.log(nonce, getTotal(products))
+            })
+            .catch((error) => {
+                console.log(error)
+                setData({ ...data, error: error.message })
+            })
+    }
+
     const showDropIn = () => {
         return (
-            <div>
+            <div onBlur={() => setData({ ...data, error: '' })}>
                 {data.clientToken !== null && products.length > 0 ? (
                     <div>
                         <DropIn
                             options={{
                                 authorization: data.clientToken,
                             }}
-                            onInstance={(instance) => instance}
+                            onInstance={(instance) =>
+                                (data.instance = instance)
+                            }
                         />
-                        <button className="btn btn-success">Checkout</button>
+                        <button onClick={buy} className="btn btn-success">
+                            Pay
+                        </button>
                     </div>
                 ) : null}
+            </div>
+        )
+    }
+
+    const showError = (error) => {
+        return (
+            <div
+                className="alert alert-danger"
+                style={{ display: error ? '' : 'none' }}
+            >
+                {error}
             </div>
         )
     }
@@ -69,7 +101,7 @@ const Checkout = ({ products }) => {
     return (
         <div>
             <h2>Total: ${getTotal()}</h2>
-
+            {showError(data.error)}
             {showCheckout()}
         </div>
     )
