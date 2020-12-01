@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../core/Layout'
 import { isAuthenticated } from '../auth'
-import { Link } from 'react-router-dom'
 import { createProduct, getCategories } from './apiAdmin'
 
 const AddProduct = () => {
@@ -181,7 +180,7 @@ const AddProduct = () => {
     const showError = () => (
         <div
             className="alert alert-danger"
-            style={{ display: error ? '' : 'none' }}
+            style={{ display: error ? error : 'none' }}
         >
             {error}
         </div>
@@ -201,7 +200,7 @@ const AddProduct = () => {
 
     return (
         <Layout
-            title="Add a new category"
+            title="Add a new product"
             description={`Good day ${user.name}, ready to add a new product?`}
             className="container-fluid"
         >

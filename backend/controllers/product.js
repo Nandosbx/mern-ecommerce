@@ -53,10 +53,10 @@ exports.create = (req, res) => {
         let product = new Product(fields)
 
         if (files.photo) {
-            if (files.photo.size > 100000) {
+            if (files.photo.size > 10000000) {
                 return res
                     .status(400)
-                    .json({ error: 'Photo must be less than 1mb in size' })
+                    .json({ error: 'Photo must be less than 1.25mb in size' })
             } else if (files.photo.size === 0) {
                 return res
                     .status(400)
@@ -121,10 +121,10 @@ exports.update = (req, res) => {
         console.log('After product: ', product)
 
         if (files.photo) {
-            if (files.photo.size > 100000) {
+            if (files.photo.size > 10000000) {
                 return res
                     .status(400)
-                    .json({ error: 'Photo must be less than 1mb' })
+                    .json({ error: 'Photo must be less than 1.25mb' })
             } else if (files.photo.size === 0) {
                 return res
                     .status(400)

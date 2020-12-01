@@ -5,9 +5,6 @@ const {
     braintreePublicKEY,
     braintreePrivateKEY,
 } = require('../config/braintreeAPI')
-const env = require('dotenv')
-
-env.config()
 
 const gateway = new braintree.BraintreeGateway({
     environment: braintree.Environment.Sandbox,
