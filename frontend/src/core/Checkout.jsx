@@ -83,7 +83,7 @@ const Checkout = ({ products, refresh }) => {
 
                 processPayment(userId, token, paymentData)
                     .then((response) => {
-                        //console.log(response)
+                        console.log(response)
 
                         const createOrderData = {
                             products: products,
