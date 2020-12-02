@@ -13,13 +13,13 @@ const {
     list,
 } = require('../controllers/category')
 
-//ANCHOR Create Category
+//NOTE Create Category
 router.post('/category/create/:userId', requireSignin, isAuth, isAdmin, create)
 
-//ANCHOR Read Category
+//NOTE Read Category
 router.get('/category/:categoryId', read)
 
-//ANCHOR Update Category
+//NOTE Update Category
 router.put(
     '/category/:categoryId/:userId',
     requireSignin,
@@ -28,7 +28,7 @@ router.put(
     update,
 )
 
-//ANCHOR Delete Category
+//NOTE Delete Category
 router.delete(
     '/category/:categoryId/:userId',
     requireSignin,
@@ -37,10 +37,10 @@ router.delete(
     remove,
 )
 
-//ANCHOR List Category
+//NOTE List Category
 router.get('/categories', list)
 
-//ANCHOR Param
+//NOTE Param
 router.param('userId', userById)
 router.param('categoryId', categoryById)
 
