@@ -132,8 +132,14 @@ const Shop = () => {
                         {filteredResults.map((product, index) => (
                             <div key={index} className="col-4 mb-3">
                                 <Card
+                                    id="Card"
                                     product={product}
-                                    style={{ display: 'flex' }}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'space-between',
+                                        justifyContent: 'space-between',
+                                        flexWrap: 'wrap',
+                                    }}
                                 />
                             </div>
                         ))}
