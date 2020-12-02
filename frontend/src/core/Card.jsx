@@ -12,6 +12,7 @@ const Card = ({
     showAddToCartButton = true,
     cartUpdate = false,
     showRemoveProductButton = false,
+    refresh,
 }) => {
     const [redirect, setRedirect] = useState(false)
     const [count, setCount] = useState(product.count)
@@ -75,9 +76,12 @@ const Card = ({
     }
 
     const handleChange = (productId) => (event) => {
-        setCount(event.target.value < 1 ? 1 : event.target.value)
-        if (event.target.value >= 1) {
-            updateItem(productId, event.target.value)
+        let value = event.target.value
+
+        setCount(value < 1 ? 1 > value : value)
+        if (value >= 1) {
+            updateItem(productId, value)
+            refresh(true)
         }
     }
 
