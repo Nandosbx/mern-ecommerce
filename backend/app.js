@@ -8,19 +8,20 @@ const expressValidator = require('express-validator')
 const env = require('dotenv')
 const config = require('./config/key')
 
-//ANCHOR Routes
+//NOTE Routes
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
 const categoryRouter = require('./routes/category')
 const productRouter = require('./routes/product')
 const braintreeRouter = require('./routes/braintree')
+const orderRouter = require('./routes/order')
 
-//ANCHOR Variables
+//NOTE Variables
 env.config()
 
 const app = express()
 
-//ANCHOR Mongoose Connection
+//NOTE Mongoose Connection
 mongoose
     .connect(config.mongoURI, {
         useNewUrlParser: true,
@@ -31,21 +32,22 @@ mongoose
     .then(() => console.log('Database is connected'))
     .catch((error) => console.log('Database error: ', error))
 
-//ANCHOR Middlewares
+//NOTE Middlewares
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(expressValidator())
 app.use(cors())
 
-//ANCHOR Routes
+//NOTE Routes
 app.use('/api', authRouter)
 app.use('/api', userRouter)
 app.use('/api', categoryRouter)
 app.use('/api', productRouter)
 app.use('/api', braintreeRouter)
+app.use('/api', orderRouter)
 
-//ANCHOR Port
+//NOTE Port
 const port = process.env.PORT || 8000
 
 app.listen(port, () => {

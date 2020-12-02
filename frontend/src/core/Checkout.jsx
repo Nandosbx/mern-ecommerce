@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Layout from './Layout'
-import { getBraintreeClientToken, getProducts, processPayment } from './apiCore'
+import {
+    getBraintreeClientToken,
+    getProducts,
+    processPayment,
+    createOrder,
+} from './apiCore'
 import { emptyCart } from './cartHelpers'
 import Card from './Card'
 import { isAuthenticated } from '../auth'
@@ -16,6 +21,8 @@ const Checkout = ({ products, refresh }) => {
         instance: {},
         address: '',
     })
+
+    const deliveryAddress = data.address
 
     const userId = isAuthenticated() && isAuthenticated().user._id
     const token = isAuthenticated() && isAuthenticated().token
@@ -33,6 +40,10 @@ const Checkout = ({ products, refresh }) => {
                 setData({ clientToken: data.clientToken })
             }
         })
+    }
+
+    const handleAddress = (event) => {
+        setData({ ...data, address: event.target.value })
     }
 
     const getTotal = () => {
@@ -72,10 +83,22 @@ const Checkout = ({ products, refresh }) => {
 
                 processPayment(userId, token, paymentData)
                     .then((response) => {
+                        //console.log(response)
+
+                        const createOrderData = {
+                            products: products,
+                            transaction_id: response.transaction.id,
+                            amount: response.transaction.amount,
+                            address: deliveryAddress,
+                        }
+
+                        createOrder(userId, token, createOrderData)
+
                         setData({ ...data, success: response.success })
                         emptyCart(() => {
                             refresh(true)
                             console.log('payment success and empty cart')
+                            console.log(createOrderData)
                             setData({ ...data, loading: false, success: true })
                         })
                     })
@@ -94,8 +117,23 @@ const Checkout = ({ products, refresh }) => {
     const showDropIn = () => {
         return (
             <div onBlur={() => setData({ ...data, error: '' })}>
-                {data.clientToken !== null && products.length > 0 ? (
+                {data.clientToken !== null &&
+                data.clientToken !== '' &&
+                products.length > 0 ? (
                     <div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="" className="text-muted">
+                                Delivery Address:
+                            </label>
+
+                            <textarea
+                                onChange={handleAddress}
+                                className="form-control"
+                                value={data.address}
+                                placeholder="Type your delivery address here..."
+                            />
+                        </div>
+
                         <DropIn
                             options={{
                                 authorization: data.clientToken,
