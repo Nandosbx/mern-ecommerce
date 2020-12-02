@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import Layout from './Layout'
 import { getBraintreeClientToken, getProducts, processPayment } from './apiCore'
+import { emptyCart } from './cartHelpers'
 import Card from './Card'
 import { isAuthenticated } from '../auth'
 import { Link } from 'react-router-dom'
 import DropIn from 'braintree-web-drop-in-react'
 
-const Checkout = ({ products }) => {
+const Checkout = ({ products, refresh }) => {
     const [data, setData] = useState({
         success: false,
         clientToken: null,
@@ -70,6 +71,10 @@ const Checkout = ({ products }) => {
                 processPayment(userId, token, paymentData)
                     .then((response) => {
                         setData({ ...data, success: response.success })
+                        emptyCart(() => {
+                            refresh(true)
+                            console.log('payment success and empty cart')
+                        })
                     })
                     .catch((error) => console.log(error))
             })
