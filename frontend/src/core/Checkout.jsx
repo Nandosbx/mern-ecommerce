@@ -18,20 +18,20 @@ const Checkout = ({ products }) => {
     const userId = isAuthenticated() && isAuthenticated().user._id
     const token = isAuthenticated() && isAuthenticated().token
 
-    const getToken = (userId, token) => {
+    //TODO
+    useEffect(() => {
+        getPaymentToken(userId, token)
+    }, [])
+
+    const getPaymentToken = (userId, token) => {
         getBraintreeClientToken(userId, token).then((data) => {
             if (data.error) {
                 setData({ ...data, error: data.error })
             } else {
-                setData({ ...data, clientToken: data.clientToken })
+                setData({ clientToken: data.clientToken })
             }
         })
     }
-
-    //TODO
-    useEffect(() => {
-        getToken(userId, token)
-    }, [userId, token])
 
     const getTotal = () => {
         return products.reduce((currentValue, nextValue) => {
@@ -56,8 +56,9 @@ const Checkout = ({ products }) => {
             .requestPaymentMethod()
             .then((data) => {
                 //console.log(data)
-                //nonce = data.nonce
                 //console.log(nonce, getTotal(products))
+
+                nonce = data.nonce
 
                 const paymentData = {
                     paymentMethodNonce: nonce,
@@ -113,9 +114,21 @@ const Checkout = ({ products }) => {
         )
     }
 
+    const showSuccess = (success) => {
+        return (
+            <div
+                className="alert alert-info"
+                style={{ display: success ? '' : 'none' }}
+            >
+                Thanks! Your payment was successful!
+            </div>
+        )
+    }
+
     return (
         <div>
             <h2>Total: ${getTotal()}</h2>
+            {showSuccess(data.success)}
             {showError(data.error)}
             {showCheckout()}
         </div>
