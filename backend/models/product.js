@@ -1,3 +1,4 @@
+//NOTE PRODUCT MODEL
 const mongoose = require('mongoose')
 const { ObjectId } = mongoose.Schema
 
