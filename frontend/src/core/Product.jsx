@@ -8,14 +8,19 @@ const Product = (props) => {
     const [relatedProduct, setRelatedProduct] = useState([])
     const [error, setError] = useState(false)
 
+    useEffect(() => {
+        const productId = props.match.params.productId
+        loadSingleProduct(productId)
+    }, [props])
+
     const loadSingleProduct = (productId) => {
         read(productId).then((data) => {
             if (data.error) {
                 setError(data.error)
             } else {
-                setProduct(data)
+                setProduct(data.product)
 
-                listRelated(data._id).then((data) => {
+                listRelated(data.product._id).then((data) => {
                     if (data.error) {
                         setError(data.error)
                     } else {
@@ -25,11 +30,6 @@ const Product = (props) => {
             }
         })
     }
-
-    useEffect(() => {
-        const productId = props.match.params.productId
-        loadSingleProduct(productId)
-    }, [props])
 
     return (
         <Layout

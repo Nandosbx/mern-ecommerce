@@ -7,10 +7,12 @@ import Checkout from './Checkout'
 
 const Cart = () => {
     const [items, setItems] = useState([])
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(() => {
         setItems(getCart())
-    }, [items])
+        setRefresh(false)
+    }, [refresh])
 
     const showItems = (items) => {
         return (
@@ -26,6 +28,9 @@ const Cart = () => {
                         showAddToCartButton={false}
                         cartUpdate={true}
                         showRemoveProductButton={true}
+                        refresh={(value = false) => {
+                            setRefresh(value)
+                        }}
                     />
                 ))}
             </div>
@@ -58,7 +63,12 @@ const Cart = () => {
                 <div className="col-6">
                     <h2 className="mb-4">Your cart summary</h2>
                     <hr />
-                    <Checkout products={items} />
+                    <Checkout
+                        products={items}
+                        refresh={(value = false) => {
+                            setRefresh(value)
+                        }}
+                    />
                 </div>
             </div>
         </Layout>

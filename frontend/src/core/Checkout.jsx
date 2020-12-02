@@ -55,15 +55,17 @@ const Checkout = ({ products }) => {
         let getNonce = data.instance
             .requestPaymentMethod()
             .then((data) => {
+                nonce = data.nonce
+
                 //console.log(data)
                 //console.log(nonce, getTotal(products))
-
-                nonce = data.nonce
 
                 const paymentData = {
                     paymentMethodNonce: nonce,
                     amount: getTotal(products),
                 }
+
+                //console.log(paymentData)
 
                 processPayment(userId, token, paymentData)
                     .then((response) => {
@@ -73,7 +75,7 @@ const Checkout = ({ products }) => {
             })
 
             .catch((error) => {
-                //console.log(error)
+                console.log(error)
                 setData({ ...data, error: error.message })
             })
     }
