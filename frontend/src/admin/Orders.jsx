@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../core/Layout'
 import { isAuthenticated } from '../auth'
-import { createProduct, getCategories, listOrders } from './apiAdmin'
+import { listOrders } from './apiAdmin'
+import moment from 'moment'
 
 const Orders = () => {
     const [orders, setOrders] = useState([])
@@ -22,10 +23,18 @@ const Orders = () => {
 
     useEffect(() => {
         loadOrders()
-    }, [])
+    }, [setOrders])
 
-    const noOrders = (orders) => {
-        return orders.length < 1 ? <h4>No orders</h4> : null
+    const showOrdersLength = () => {
+        if (orders.length > 0) {
+            return (
+                <h1 className="text-danger display-2">
+                    Total orders: {orders.length}
+                </h1>
+            )
+        } else {
+            return <h1 className="text-danger">No orders</h1>
+        }
     }
 
     return (
@@ -36,8 +45,56 @@ const Orders = () => {
         >
             <div className="row">
                 <div className="col-md-8 offset-md-2">
-                    {noOrders(orders)}
-                    {JSON.stringify(orders)}
+                    {showOrdersLength()}
+
+                    {orders.map((order, index) => {
+                        console.log(order)
+                        return (
+                            <div
+                                key={index}
+                                className="mt-5"
+                                style={{ borderBottom: '5px solid indigo' }}
+                            >
+                                <h2 className="mb-5">
+                                    <span className="bg-primary">
+                                        Order ID: {order._id}
+                                    </span>
+                                </h2>
+
+                                <ul className="list-group mb-2">
+                                    <li className="list-group-item">
+                                        {order.status}
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        Transaction ID: {order.transaction_id}
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        Amount: ${order.amount}
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        Ordered by: {order.user.name}
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        Ordered on:{' '}
+                                        {moment(order.createdAt).fromNow()}
+                                    </li>
+
+                                    <li className="list-group-item">
+                                        Delivery address: {order.address}
+                                    </li>
+                                </ul>
+
+                                <h3 className="mt-4 mb-4 font-italic">
+                                    Total products in the order:{' '}
+                                    {order.products.length}
+                                </h3>
+                            </div>
+                        )
+                    })}
                 </div>
             </div>
         </Layout>

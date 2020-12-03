@@ -13,8 +13,9 @@ exports.productById = (req, res, next, id) => {
                 return res.status(400).json({
                     error: 'Product not found',
                 })
+            } else {
+                req.product = product
             }
-            req.product = product
             next()
         })
 }
@@ -172,14 +173,14 @@ exports.list = (req, res) => {
         .populate('category')
         .sort([[sortBy, order]])
         .limit(limit)
-        .exec((error, data) => {
+        .exec((error, products) => {
             if (error) {
                 return res.status(400).json({
                     error: 'Product not found',
                 })
             }
 
-            res.send(data)
+            res.send(products)
         })
 }
 
@@ -248,7 +249,7 @@ exports.listBySearch = (req, res) => {
 
             res.json({
                 size: data.length,
-                data,
+                products: data,
             })
         })
 }
@@ -277,8 +278,9 @@ exports.listSearch = (req, res) => {
                 return res.status(400).json({
                     error: errorHandler(err),
                 })
+            } else {
+                res.json(products)
             }
-            res.json(products)
         }).select('-photo')
     }
 }
