@@ -37,6 +37,22 @@ const Orders = () => {
         }
     }
 
+    const showInput = (key, value) => {
+        return (
+            <div className="input-group mb-2 mr-sm-2">
+                <div className="input-group-prepend">
+                    <div className="input-group-text">{key}</div>
+                </div>
+                <input
+                    type="text"
+                    value={value}
+                    className="form-control"
+                    readOnly
+                />
+            </div>
+        )
+    }
+
     return (
         <Layout
             title="Orders"
@@ -92,6 +108,36 @@ const Orders = () => {
                                     Total products in the order:{' '}
                                     {order.products.length}
                                 </h3>
+
+                                {order.products.map((product, index) => {
+                                    return (
+                                        <div
+                                            className="mb-4"
+                                            key={index}
+                                            style={{
+                                                padding: '20px',
+                                                border: '1px solid indigo',
+                                            }}
+                                        >
+                                            {showInput(
+                                                'Product name',
+                                                product.name
+                                            )}
+                                            {showInput(
+                                                'Product price',
+                                                product.price
+                                            )}
+                                            {showInput(
+                                                'Product total',
+                                                product.count
+                                            )}
+                                            {showInput(
+                                                'Product Id',
+                                                product._id
+                                            )}
+                                        </div>
+                                    )
+                                })}
                             </div>
                         )
                     })}
