@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const expressJwt = require('express-jwt')
 const { JWT_SECRET } = require('../config/jwtSecret')
 
-//ANCHOR SignUp
+//NOTE SignUp
 exports.signup = (req, res) => {
     const user = new User(req.body)
     user.save((error, user) => {
@@ -23,7 +23,7 @@ exports.signup = (req, res) => {
     })
 }
 
-//ANCHOR Signin
+//NOTE Signin
 exports.signin = (req, res) => {
     //Encontrar o usuário baseado no email
     const { email, password } = req.body
@@ -50,20 +50,20 @@ exports.signin = (req, res) => {
     })
 }
 
-//ANCHOR Signout
+//NOTE Signout
 exports.signout = (req, res) => {
     res.clearCookie('t')
     res.json({ message: 'Signout success' })
 }
 
-//ANCHOR Require Signin
+//NOTE Require Signin
 exports.requireSignin = expressJwt({
     secret: JWT_SECRET,
     algorithms: ['HS256'],
     userProperty: 'auth',
 })
 
-//ANCHOR is Auth?
+//NOTE is Auth?
 exports.isAuth = (req, res, next) => {
     let user = req.profile && req.auth && req.profile._id == req.auth._id
     if (!user) {
@@ -74,7 +74,7 @@ exports.isAuth = (req, res, next) => {
     next()
 }
 
-//ANCHOR is Admin?
+//NOTE is Admin?
 exports.isAdmin = (req, res, next) => {
     if (req.profile.role === 0) {
         return res.status(403).json({

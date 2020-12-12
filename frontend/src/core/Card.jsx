@@ -17,18 +17,6 @@ const Card = ({
     const [redirect, setRedirect] = useState(false)
     const [count, setCount] = useState(product.count)
 
-    const showViewButton = (showViewProductButton) => {
-        return (
-            showViewProductButton && (
-                <Link to={`/product/${product._id}`} className="mr-2">
-                    <button className="btn btn-outline-info mt-2 mb-2 mr-2">
-                        View Product
-                    </button>
-                </Link>
-            )
-        )
-    }
-
     const addToCart = () => {
         addItem(product, () => {
             setRedirect(true)
@@ -41,11 +29,25 @@ const Card = ({
         }
     }
 
+    const showViewButton = (showViewProductButton) => {
+        return (
+            showViewProductButton && (
+                <Link to={`/product/${product._id}`} className="mr-2">
+                    <button className="btn btn-outline-info mt-2 mb-2 mr-2">
+                        View Product
+                    </button>
+                </Link>
+            )
+        )
+    }
+
     const showAddToCart = (showAddToCartButton) => {
         return (
             showAddToCartButton && (
                 <button
-                    onClick={addToCart}
+                    onClick={() => {
+                        addToCart()
+                    }}
                     className="btn btn-outline-warning mt-2 mb-2"
                 >
                     Add to Cart
@@ -66,7 +68,10 @@ const Card = ({
         return (
             showRemoveProductButton && (
                 <button
-                    onClick={() => removeItem(product._id)}
+                    onClick={() => {
+                        removeItem(product._id)
+                        refresh(true)
+                    }}
                     className="btn btn-outline-danger mt-2 mb-2"
                 >
                     Remove Product

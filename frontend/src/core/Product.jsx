@@ -18,9 +18,9 @@ const Product = (props) => {
             if (data.error) {
                 setError(data.error)
             } else {
-                setProduct(data.product)
+                setProduct(data)
 
-                listRelated(data.product._id).then((data) => {
+                listRelated(data._id).then((data) => {
                     if (data.error) {
                         setError(data.error)
                     } else {
@@ -30,6 +30,8 @@ const Product = (props) => {
             }
         })
     }
+
+
 
     return (
         <Layout

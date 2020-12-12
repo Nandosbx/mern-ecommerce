@@ -1,7 +1,7 @@
 const Category = require('../models/category')
 const { errorHandler } = require('../helpers/dbErrorHandler')
 
-//ANCHOR Create Category
+//NOTE Create Category
 exports.create = (req, res) => {
     const category = new Category(req.body)
     category.save((error, data) => {
@@ -14,7 +14,7 @@ exports.create = (req, res) => {
     })
 }
 
-//ANCHOR Category By Id
+//NOTE Category By Id
 exports.categoryById = (req, res, next, id) => {
     Category.findById(id).exec((error, category) => {
         if (error || !category) {
@@ -27,7 +27,7 @@ exports.categoryById = (req, res, next, id) => {
     })
 }
 
-//ANCHOR Read
+//NOTE Read
 exports.read = (req, res) => {
     return res.json(req.category)
 }
@@ -46,7 +46,7 @@ exports.update = (req, res) => {
     })
 }
 
-//ANCHOR Remove
+//NOTE Remove
 exports.remove = (req, res) => {
     const category = req.category
     category.remove((error) => {
@@ -61,7 +61,7 @@ exports.remove = (req, res) => {
     })
 }
 
-//ANCHOR List
+//NOTE List
 exports.list = (req, res) => {
     Category.find().exec((error, data) => {
         if (error) {
@@ -73,4 +73,4 @@ exports.list = (req, res) => {
     })
 }
 
-//ANCHOR
+//NOTE

@@ -11,11 +11,10 @@ exports.productById = (req, res, next, id) => {
         .exec((error, product) => {
             if (error || !product) {
                 return res.status(400).json({
-                    error: 'Product not found',
+                    error: `Product not found ID: ${id}`,
                 })
-            } else {
-                req.product = product
             }
+            req.product = product
             next()
         })
 }
@@ -135,13 +134,13 @@ exports.update = (req, res) => {
             product.photo.contentType = files.photo.type
         }
 
-        product.save((error, result) => {
+        product.save((error, data) => {
             if (error) {
                 return res.status(400).json({
                     error: errorHandler(error),
                 })
             }
-            res.json({ result })
+            res.json({ data })
         })
     })
 }
@@ -188,7 +187,10 @@ exports.list = (req, res) => {
 exports.listRelated = (req, res) => {
     let limit = req.query.limit ? parseInt(req.query.limit) : 6
 
-    Product.find({ _id: { $ne: req.product }, category: req.product.category })
+    Product.find({
+        _id: { $ne: req.product },
+        category: req.product.category,
+    })
         .limit(limit)
         .populate('category', '_id name')
         .exec((error, products) => {
@@ -196,8 +198,9 @@ exports.listRelated = (req, res) => {
                 return res.status(400).json({
                     error: 'Product not found',
                 })
+            } else {
+                res.json(products)
             }
-            res.json(products)
         })
 }
 
@@ -225,8 +228,8 @@ exports.listBySearch = (req, res) => {
         if (req.body.filters[key].length > 0) {
             if (key === 'price') {
                 findArgs[key] = {
-                    $gte: req.body.filters[0],
-                    $lte: req.body.filters[1],
+                    $gte: req.body.filters[key][0],
+                    $lte: req.body.filters[key][1],
                 }
             } else {
                 findArgs[key] = req.body.filters[key]
@@ -236,7 +239,7 @@ exports.listBySearch = (req, res) => {
 
     Product.find(findArgs)
         .select('-photo')
-        .populate('categories')
+        .populate('category')
         .sort([[sortBy, order]])
         .skip(skip)
         .limit(limit)
@@ -249,7 +252,7 @@ exports.listBySearch = (req, res) => {
 
             res.json({
                 size: data.length,
-                products: data,
+                data, //NOTE products
             })
         })
 }

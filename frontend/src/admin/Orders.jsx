@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../core/Layout'
 import { isAuthenticated } from '../auth'
-import { listOrders, getStatusValues } from './apiAdmin'
+import { listOrders, getStatusValues, updateOrderStatus } from './apiAdmin'
 import moment from 'moment'
 
 const Orders = () => {
@@ -64,8 +64,18 @@ const Orders = () => {
         )
     }
 
-    const handleStatusChange = (e, orderId) => {
-        console.log(orderId)
+    const handleStatusChange = (event, orderId) => {
+        updateOrderStatus(user._id, token, orderId, event.target.value).then(
+            (data) => {
+                if (data.error) {
+                    console.log('Status update failed', data.error)
+                } else {
+                    loadOrders()
+                    console.log(event.target.value)
+                    console.log('Success')
+                }
+            }
+        )
     }
 
     const showStatus = (order) => {
@@ -74,17 +84,15 @@ const Orders = () => {
                 <h3 className="mark mb-3">Status: {order.status}</h3>
 
                 <select
-                    onChange={(e) => handleStatusChange(e, order._id)}
+                    onChange={(event) => handleStatusChange(event, order._id)}
                     className="form-control"
                 >
                     <option>Update Status</option>
-                    {statusValues.map((status, index) => {
-                        return (
-                            <option key={index} value={status}>
-                                {status}
-                            </option>
-                        )
-                    })}
+                    {statusValues.map((status, index) => (
+                        <option key={index} value={status}>
+                            {status}
+                        </option>
+                    ))}
                 </select>
             </div>
         )

@@ -6,7 +6,7 @@ export const getProducts = (sortBy) => {
         method: 'GET',
     })
         .then((response) => {
-            return response.json({})
+            return response.json()
         })
         .catch((error) => console.log(error))
 }
@@ -16,7 +16,7 @@ export const getCategories = () => {
         method: 'GET',
     })
         .then((response) => {
-            return response.json({})
+            return response.json()
         })
         .catch((error) => console.log(error))
 }
@@ -46,7 +46,7 @@ export const list = (params) => {
         method: 'GET',
     })
         .then((response) => {
-            return response.json({})
+            return response.json()
         })
         .catch((error) => console.log(error))
 }
@@ -66,7 +66,7 @@ export const listRelated = (productId) => {
         method: 'GET',
     })
         .then((response) => {
-            return response.json({})
+            return response.json()
         })
         .catch((error) => console.log(error))
 }
