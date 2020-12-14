@@ -42,16 +42,7 @@
 
 <h2>📖 About</h2>
 
-Ecommerce Mern Project.
-
-------------
-<h2>🔖 Layout</h2>
-<div align="justify">
-
-💻 Check the Web layout on <a href="#">Figma</a>.
-
-📱 &nbsp; Check the Mobile layout on <a href="#">Figma</a>.
-</div>
+Ecommerce Project developed in Mongo, Express, React, Node.
 
 ------------
 
@@ -68,6 +59,7 @@ This project was developed with:
 - [NodeJs](https://nodejs.org/en/ "NodeJs")
 - [Express](https://expressjs.com/ "Express")
 - [React](https://reactjs.org/ "React")
+- [Bootstrap](https://expressjs.com/ "Express")
 
 
 ------------
@@ -76,8 +68,16 @@ This project was developed with:
 <h3>Dependencies</h3>
 
 - [Express](https://expressjs.com/ "Express")
-
-
+- [Mongoose](https://expressjs.com/ "Express")
+- [Morgan](https://expressjs.com/ "Express")
+- [Express-Validator](https://expressjs.com/ "Express")
+- [Express](https://expressjs.com/ "Express")
+- [Braintree](https://expressjs.com/ "Express")
+- [JsonWebToken](https://expressjs.com/ "Express")
+- [Cookie-Parsers](https://expressjs.com/ "Express")
+- [Body-Parser](https://expressjs.com/ "Express")
+- [Lodash](https://expressjs.com/ "Express")
+- [Cors](https://expressjs.com/ "Express")
 
 ------------
 
