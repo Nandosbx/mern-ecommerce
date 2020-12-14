@@ -88,7 +88,7 @@ const Search = () => {
                     <div className="input-group input-group-lg">
                         <div
                             className="input-group-prepend"
-                            style={{ border: 'none' }}
+                            style={{ border: 'none', marginTop: '0' }}
                         >
                             <select
                                 className="btn mr-2  text-white"
@@ -119,7 +119,7 @@ const Search = () => {
                     </div>
                     <div
                         className="btn input-group-append"
-                        style={{ border: 'none' }}
+                        style={{ border: 'none', marginTop: '0' }}
                     >
                         <button className="input-group-text">Search</button>
                     </div>

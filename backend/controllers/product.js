@@ -94,31 +94,11 @@ exports.update = (req, res) => {
             })
         }
 
-        const {
-            name,
-            description,
-            price,
-            category,
-            quantity,
-            shipping,
-        } = fields
-
-        if (
-            !name ||
-            !description ||
-            !price ||
-            !category ||
-            !quantity ||
-            !shipping
-        ) {
-            return res.status(400).json({ error: 'All fields are required' })
-        }
-
         let product = req.product
-        console.log('Before product: ', product)
-        console.log('Fields: ', fields)
         product = _.extend(product, fields)
-        console.log('After product: ', product)
+        //console.log('Before product: ', product)
+        //console.log('Fields: ', fields)
+        //console.log('After product: ', product)
 
         if (files.photo) {
             if (files.photo.size > 10000000) {

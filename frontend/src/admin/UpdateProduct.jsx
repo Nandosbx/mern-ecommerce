@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../core/Layout'
 import { isAuthenticated } from '../auth'
-import { createProduct, getCategories } from './apiAdmin'
+import { getProduct, getCategories, updateProduct } from './apiAdmin'
+import { Redirect } from 'react-router-dom'
 
-const AddProduct = () => {
-    const { user, token } = isAuthenticated()
+const UpdateProduct = ({ match }) => {
     const [values, setValues] = useState({
         name: '',
         description: '',
@@ -21,11 +21,15 @@ const AddProduct = () => {
         formData: '',
     })
 
+    const [categories, setCategories] = useState([])
+
+    const { user, token } = isAuthenticated()
+
     const {
         name,
         description,
         price,
-        categories,
+        //categories,
         category,
         shipping,
         quantity,
@@ -36,23 +40,39 @@ const AddProduct = () => {
         formData,
     } = values
 
-    const init = () => {
-        getCategories().then((data) => {
+    const init = (productId) => {
+        getProduct(productId).then((data) => {
             if (data.error) {
                 setValues({ ...values, error: data.error })
             } else {
                 setValues({
                     ...values,
-                    categories: data,
+                    name: data.name,
+                    description: data.description,
+                    price: data.price,
+                    category: data.category._id,
+                    shipping: data.shipping,
+                    quantity: data.quantity,
                     formData: new FormData(),
                 })
+                initCategories()
+            }
+        })
+    }
+
+    const initCategories = () => {
+        getCategories().then((data) => {
+            if (data.error) {
+                setValues({ ...values, error: data.error })
+            } else {
+                setCategories(data)
             }
         })
     }
 
     useEffect(() => {
-        init()
-    }, [setValues])
+        init(match.params.productId)
+    }, [])
 
     const handleChange = (name) => (event) => {
         const value =
@@ -65,26 +85,29 @@ const AddProduct = () => {
         event.preventDefault()
         setValues({ ...values, error: '', loading: true })
 
-        createProduct(user._id, token, formData).then((data) => {
-            if (data.error) {
-                setValues({ ...values, error: data.error })
-            } else {
-                setValues({
-                    ...values,
-                    name: '',
-                    description: '',
-                    photo: '',
-                    price: '',
-                    quantity: '',
-                    category: '',
-                    loading: false,
-                    createdProduct: data.name,
-                })
+        updateProduct(match.params.productId, user._id, token, formData).then(
+            (data) => {
+                if (data.error) {
+                    setValues({ ...values, error: data.error })
+                } else {
+                    setValues({
+                        ...values,
+                        name: '',
+                        description: '',
+                        photo: '',
+                        price: '',
+                        quantity: '',
+                        loading: false,
+                        error: false,
+                        redirectToProfile: true,
+                        createdProduct: data.name,
+                    })
+                }
             }
-        })
+        )
     }
 
-    const newPostForm = () => {
+    const updateForm = () => {
         return (
             <form className="mb-3" onSubmit={clickSubmit}>
                 <h4>Post Photo</h4>
@@ -171,7 +194,7 @@ const AddProduct = () => {
                 </div>
 
                 <button className="btn btn-outline-primary">
-                    Create Product
+                    Update Product
                 </button>
             </form>
         )
@@ -180,7 +203,7 @@ const AddProduct = () => {
     const showError = () => (
         <div
             className="alert alert-danger"
-            style={{ display: error ? error : 'none' }}
+            style={{ display: error ? '' : 'none' }}
         >
             {error}
         </div>
@@ -191,17 +214,25 @@ const AddProduct = () => {
             className="alert alert-info"
             style={{ display: createdProduct ? '' : 'none' }}
         >
-            <h2>{`${createdProduct} is created`}</h2>
+            <h2>{`${createdProduct} is updated!`}</h2>
         </div>
     )
 
     const showLoading = () =>
         loading && <div className="alert alert-success">Loading</div>
 
+    const redirectUser = () => {
+        if (redirectToProfile) {
+            if (!error) {
+                return <Redirect to="/" />
+            }
+        }
+    }
+
     return (
         <Layout
-            title="Add a new product"
-            description={`Good day ${user.name}, ready to add a new product?`}
+            title="Update product"
+            description={`Good day ${user.name}, ready to update product?`}
             className="container-fluid"
         >
             <div className="row">
@@ -209,11 +240,12 @@ const AddProduct = () => {
                     {showLoading()}
                     {showSuccess()}
                     {showError()}
-                    {newPostForm()}
+                    {updateForm()}
+                    {redirectUser()}
                 </div>
             </div>
         </Layout>
     )
 }
 
-export default AddProduct
+export default UpdateProduct

@@ -52,17 +52,26 @@ const ManageProducts = () => {
                                 className="list-group-item d-flex justify-content-between align-items-center"
                             >
                                 <strong>{p.name}</strong>
-                                <Link to={`/admin/product/update/${p._id}`}>
-                                    <span className="btn btn-warning mr-auto">
-                                        Update
-                                    </span>
-                                </Link>
-                                <button
-                                    onClick={() => destroy(p._id)}
-                                    className="btn btn-danger"
+                                <div
+                                    className="ml-auto"
+                                    style={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'right',
+                                    }}
                                 >
-                                    Delete
-                                </button>
+                                    <Link to={`/admin/product/update/${p._id}`}>
+                                        <span className="btn btn-warning mr-2">
+                                            Update
+                                        </span>
+                                    </Link>
+                                    <button
+                                        onClick={() => destroy(p._id)}
+                                        className="btn btn-danger"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>

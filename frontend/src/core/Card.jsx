@@ -113,15 +113,39 @@ const Card = ({
     }
 
     return (
-        <div className="card">
+        <div
+            className="card"
+            style={{
+                backgroundColor: '#f5f5f5',
+                height: 'auto',
+                width: 'auto',
+            }}
+        >
             <div className="card-header bg-dark text-white name">
-                {product.name}
+                {product.name.substring(0, 30)}
+            </div>
+
+            {shouldRedirect(redirect)}
+
+            <div
+                className="card-photo"
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '10px',
+                    backgroundColor: '#fff',
+                }}
+            >
+                <ShowImage
+                    item={product}
+                    url="product"
+                    style={{ backgroundColor: '#fff' }}
+                />
             </div>
             <div className="card-body">
-                {shouldRedirect(redirect)}
-                <ShowImage item={product} url="product" />
                 <p className="lead mt-2">
-                    {product.description.substring(0, 100)}
+                    {product.description.substring(0, 90)}
                 </p>
                 <p className="black-10">${product.price}</p>
                 <p className="black-9">
