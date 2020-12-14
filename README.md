@@ -67,17 +67,16 @@ This project was developed with:
 
 <h3>Dependencies</h3>
 
-- [Express](https://expressjs.com/ "Express")
-- [Mongoose](https://expressjs.com/ "Express")
-- [Morgan](https://expressjs.com/ "Express")
-- [Express-Validator](https://expressjs.com/ "Express")
-- [Express](https://expressjs.com/ "Express")
-- [Braintree](https://expressjs.com/ "Express")
-- [JsonWebToken](https://expressjs.com/ "Express")
-- [Cookie-Parsers](https://expressjs.com/ "Express")
-- [Body-Parser](https://expressjs.com/ "Express")
-- [Lodash](https://expressjs.com/ "Express")
-- [Cors](https://expressjs.com/ "Express")
+- [Mongoose]()
+- [Morgan]()
+- [Express-Validator]()
+- [Express]()
+- [Braintree]()
+- [JsonWebToken]()
+- [Cookie-Parsers]()
+- [Body-Parser]()
+- [Lodash]()
+- [Cors]()
 
 ------------
 
