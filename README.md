@@ -1,9 +1,9 @@
 <h1 align="center">Ecommerce React</h1>
-<!---
+
 <p align="center">
-<img src=""/>
+<img src="./.github/mern-ecommerce-v1.gif"/>
 </p>
--->
+
 
 <!--
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/run-collection/:collection_id)
